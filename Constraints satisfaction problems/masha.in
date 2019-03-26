@@ -1,0 +1,42 @@
+%Problema 85 
+
+%Masha had to find the product of three numbers in order to calculate the 
+%volume of some soil.
+%She multiplied the first number by the second correctly and was about to multiply the result by the third number when she noticed that the second number had been written incorrectly. It was one-third
+%larger than it should be.
+%to avoid recalculating, Masha decided it would be safe to merely lower the third number by one-third of itself-particularly since it equaled the second number.
+%"But you shouldn't do that," a girl friend said to Masha. "If you do, you will be wrong by 20 cubic yards."
+%"Why?" said Masha.
+%Why indeed? And what is the correct soil volume?
+
+set(arithmetic).
+assign(domain_size, 150).
+assign(max_models, -1).
+
+formulas(assumptions).
+ 
+
+ %dimensiunile reale ale volumului
+ a != 0 .
+ b != 0 .
+ c != 0 .
+ d = a * b * c.
+ 
+ d_partial_masha = a * b_gresit.
+ b1 * 3 = b.
+ b_gresit = b + b1 .
+
+ d_masha = d_partial_masa * c_modificat.
+ c1 * 3 = c.
+ c_modificat + c1 = c. 
+ c = b. 
+ 
+ d_masha + 20 = d | d + 20 = d_masha.
+
+end_of_list.
+
+formulas(goals).
+
+end_of_list.
+
+

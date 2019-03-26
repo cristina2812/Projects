@@ -1,0 +1,65 @@
+% Ursii, lupii, gainile, ramele si melcii sunt animale si exista cativa din fiecare.
+% De asemenea exista cereale si cerealele sunt plante.
+% Fiecarui animal ii plac fie plantele, fie animalele mai mici decat el care mananca plante.
+% Ramele si melcii sunt mai mici decat gainile, care sunt mai mici decat lupii, care la randul lor 
+% sunt mai mici decat ursii.
+% Ursilor nu le place sa manance lupi sau cereale, in timp ce gainilor le plac ramele dar nu si %melcii.
+% Ramle si melcii mananca plante.
+% Demonstreaza ca exista un animal caruia ii place sa manance un animal mancator de cereale.
+
+
+formulas(assumptions).
+ 
+ all x (a_urs(x) -> animal(x)).
+ all x (a_lup(x) -> animal(x)).
+ all x (a_gaina(x) -> animal(x)).
+ all x (a_rama(x) -> animal(x)).
+ all x (a_melc(x) -> animal(x)).
+ all x (a_cereala(x) -> planta(x)).
+
+ exists x a_urs(x).
+ exists x a_lup(x).
+ exists x a_gaina(x).
+ exists x a_rama(x).
+ exists x a_melc(x).
+ exists x a_cereala(x).
+
+% Fiecarui animal ii plac fie plantele, fie animalele mai mici decat el care mananca plante.
+
+ all x (animal(x) -> (all y (planta(y) -> mananca(x,y)))
+		| (all z (animal(z) & mai_mic(z,x) & (exists u (planta(u) & mananca(z,u))) -> mananca(x,z)))).
+
+% Ramele si melcii sunt mai mici decat gainile, care sunt mai mici decat lupii, care la randul lor 
+% sunt mai mici decat ursii.
+
+ all x all y (a_rama(x) & a_gaina(y) -> mai_mic(x,y)).
+ all x all y (a_melc(x) & a_gaina(y) -> mai_mic(x,y)).
+ all x all y (a_gaina(x) & a_lup(y) -> mai_mic(x,y)).
+ all x all y (a_lup(x) & a_urs(y) -> mai_mic(x,y)).
+
+% Ursilor nu le place sa manance lupi sau cereale, in timp ce gainilor le plac ramele dar nu si %melcii.
+
+ all x all y (a_gaina(x) & a_rama(y) -> mananca(x,y)).
+ all x all y (a_urs(x) & a_lup(y) -> -mananca(x,y)).
+ all x all y (a_urs(x) & a_cereala(y) -> -mananca(x,y)).
+ all x all y (a_gaina(x) & a_melc(y) -> -mananca(x,y)).
+
+% Ramle si melcii mananca plante.
+
+ all x (a_rama(x) -> (exists y (planta(y) & mananca(x,y)))).
+ all x (a_melc(x) -> (exists y (planta(y) & mananca(x,y)))).
+
+end_of_list.
+
+
+formulas(goals).
+
+% Demonstreaza ca exista un animal caruia ii place sa manance un animal mancator de cereale.
+
+ exists x exists y (animal(x) & animal(y) & mananca(x,y) &
+ (all z (a_cereala(z) -> mananca(y,z)))).
+
+end_of_list.
+ 
+
+ 
